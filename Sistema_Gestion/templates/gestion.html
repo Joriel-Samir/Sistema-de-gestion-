@@ -1,71 +1,78 @@
 {% extends "base.html"%}
 
 {% block content %}
-<div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
-    <table class="w-full text-sm text-left rtl:text-right text-body">
-        <thead class="bg-neutral-secondary-soft border-b border-default">
-            <tr>
-                <th scope="col" class="px-6 py-3 font-medium">Ingresos</th>
-                <th scope="col" class="px-6 py-3 font-medium">Gastos</th>
-                <th scope="col" class="px-6 py-3 font-medium">Descripcion del gasto</th>
-                <th scope="col" class="px-6 py-3 font-medium">Fecha</th>
-                <th scope="col" class="px-6 py-3 font-medium">Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in summaries %}
-            <tr class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
-                <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">{{ item.ingresos }}</th>
-                <td class="px-6 py-4">{{ item.gastos }}</td>
-                <td class="px-6 py-4">{{ item.decripcion_gasto }}</td> 
-                <td class="px-6 py-4">{{ item.fecha }}</td>
-                <td class="px-6 py-4">
-                    <div class="flex gap-2">
-                        <form action="{% url 'gestion' %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit" class="font-medium text-fg-brand hover:underline"> 
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9.5 8h5"/><path d="M9.5 12H16"/><path d="M9.5 16H14"/></svg>
-                            </button>
-                        </form> 
-                        <form action="{% url 'eliminar' item.id %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit" class="font-medium text-fg-brand hover:underline">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                            </button>
-                        </form> 
-                        <a href="{% url 'editar' item.id %}" class="font-medium text-fg-brand hover:underline">
-                            Editar
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            {% empty %}
-            <tr class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
-                <td colspan="4" class="px-6 py-4">No hay registros</td>
-                <td class="px-6 py-4"> 
-                    <form action="{% url 'gestion' %}" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" class="font-medium text-fg-brand hover:underline"> 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9.5 8h5"/><path d="M9.5 12H16"/><path d="M9.5 16H14"/></svg>
-                        </button>
-                    </form> 
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        
-        {% if summaries %}
-        <tfoot class="bg-neutral-secondary-soft border-t border-default">
-            <tr>
-                <th scope="row" class="px-6 py-4 font-semibold text-heading">Total: {{ total_ingresos }}</th>
-                <td class="px-6 py-4 font-semibold">{{ total_gastos }}</td>
-                <td class="px-6 py-4"></td>
-                <td class="px-6 py-4"></td>
-                <td class="px-6 py-4"></td>
-            </tr>
-        </tfoot>
-        {% endif %}
-    </table>
+
+<div class="container mt-5">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Ingresos</th>
+                    <th scope="col">Gastos</th>
+                    <th scope="col">Descripción del gasto</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in summaries %}
+                <tr>
+                    <td>${{ item.ingresos }}</td>
+                    <td>${{ item.gastos }}</td>
+                    <td>{{ item.decripcion_gasto }}</td> 
+                    <td>{{ item.fecha }}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <form action="{% url 'gestion' %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-sm" title="Añadir"> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9.5 8h5"/><path d="M9.5 12H16"/><path d="M9.5 16H14"/></svg>
+                                </button>
+                            </form> 
+                            
+                            <form action="{% url 'eliminar' item.id %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm" title="Eliminar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                </button>
+                            </form> 
+                            
+                            <a href="{% url 'editar' item.id %}" class="btn btn-warning btn-sm" title="Editar">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No hay registros</td>
+                    <td>
+                        <div class="d-flex gap-2"> <form action="{% url 'gestion' %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-sm" title="Añadir"> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9.5 8h5"/><path d="M9.5 12H16"/><path d="M9.5 16H14"/></svg>
+                                </button>
+                            </form> 
+                        </div>
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+            
+            {% if summaries %}
+            <tfoot class="table-secondary">
+                <tr>
+                    <td><strong>${{ total_ingresos }}</strong></td>
+                    <td><strong>${{ total_gastos }}</strong></td>
+                    <th scope="row">Dinero restante: ${{dinero_total}}</th>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+            {% endif %}
+        </table>
+    </div>
 </div>
 
 {% endblock %}

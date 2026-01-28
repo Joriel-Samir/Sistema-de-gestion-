@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.base, name="base"),
     path('singup/', views.Singup, name="singup"),
     path('login/', views.login_, name="login"),
+    path('logout/', views.Logout, name="logout"),
     path('gestion/', views.gestion, name="gestion"),
     path('añadir/', views.añadir_datos, name="añadir"),
     path('gestion/<int:gasto_id>/eliminar/', views.eliminar_datos, name="eliminar"),

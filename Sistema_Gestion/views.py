@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
@@ -23,6 +24,7 @@ def Singup(request):
                 return render(request, "singup.html", {"form": UserCreationForm(),
                                                        "error": "El usuario ya existe"})
 
+
 def login_ (request):
     if request.method == "GET":
         return render(request, "login.html", {"form": AuthenticationForm()})
@@ -35,10 +37,11 @@ def login_ (request):
             login (request, user)
             return redirect("gestion")
 
-def logout (request):
-    logout(request, {"error": "Algo salio mal"})
-    redirect ("base")
+def Logout (request, ):
+    logout(request)
+    return redirect("base")
 
+@login_required
 def gestion(request):
     if request.method == "GET":
         summaries = FinancialSummary.objects.filter(user=request.user)
@@ -47,8 +50,9 @@ def gestion(request):
         for i in summaries:
             total_gastos += i.gastos
             total_ingresos += i.ingresos
+        dinero_total = total_ingresos - total_gastos
         return render(request, "gestion.html", {"summaries": summaries, "total_gastos": total_gastos,
-                                                "total_ingresos": total_ingresos})
+                                                "total_ingresos": total_ingresos, "dinero_total": dinero_total})
     else: 
         return redirect ("añadir")
         
