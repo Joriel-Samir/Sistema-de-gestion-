@@ -1,0 +1,12 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<form action="{% url 'añadir' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">enviar</button>
+</form>
+{{error}}
+
+{% endblock %}
