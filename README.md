@@ -44,13 +44,14 @@ Sistema_Gestion/
 ├── manage.py
 └── requirements.txt
 
-## ⚙️ Instalación y configuración
+## Instalación y configuración
 
 ### Clonar el repositorio
 
 ```bash
 https://github.com/Joriel-Samir/Sistema-de-gestion-.git
-
+```
+###Configura tu entorno virtual 
 -Windows
 python -m venv venv
 venv\Scripts\activate
@@ -59,13 +60,15 @@ venv\Scripts\activate
 python3 -m venv venv
 source venv/bin/activate
 
+###Instala las librerias 
+
 pip install -r requirements.txt
 
--Realiza las migraciones
+###Realiza las migraciones
 python manage.py makemigrations
 python manage.py migrate
 
--Create un super usuario para administrar las tablas
+####Create un super usuario para administrar las tablas
 python manage.py createsuperuser
 
 
